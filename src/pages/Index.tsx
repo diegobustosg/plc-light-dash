@@ -1,23 +1,10 @@
 import { useState } from "react";
 import LightIndicator from "@/components/LightIndicator";
 import { useNodeRedAPI } from "@/hooks/useNodeRedAPI";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Settings, Wifi, WifiOff, Activity } from "lucide-react";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import { Wifi, WifiOff, Activity } from "lucide-react";
 
 const Index = () => {
-  const { lights, isConnected, setApiUrl } = useNodeRedAPI();
-  const [showSettings, setShowSettings] = useState(false);
-  const [tempApiUrl, setTempApiUrl] = useState("http://localhost:1880/api");
+  const { lights, isConnected } = useNodeRedAPI();
   const [acknowledgedLights, setAcknowledgedLights] = useState<Record<number, boolean>>({});
 
   const handleAcknowledgeAll = () => {
@@ -34,10 +21,6 @@ const Index = () => {
 
   const lightColors = ["#22c55e", "#3b82f6", "#f59e0b"];
 
-  const handleSaveApiUrl = () => {
-    setApiUrl(tempApiUrl);
-    setShowSettings(false);
-  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -71,53 +54,11 @@ const Index = () => {
                   <>
                     <WifiOff className="w-4 h-4 text-[hsl(var(--status-warning))]" />
                     <span className="text-sm font-semibold text-[hsl(var(--status-warning))] uppercase">
-                      Modo Demo
+                      Desconectado
                     </span>
                   </>
                 )}
               </div>
-
-              {/* Settings Dialog */}
-              <Dialog open={showSettings} onOpenChange={setShowSettings}>
-                <DialogTrigger asChild>
-                  <Button
-                    variant="outline"
-                    size="icon"
-                    className="border-[hsl(var(--panel-border))] hover:bg-[hsl(var(--accent))]"
-                  >
-                    <Settings className="w-5 h-5" />
-                  </Button>
-                </DialogTrigger>
-                <DialogContent className="bg-[hsl(var(--card))] border-[hsl(var(--panel-border))]">
-                  <DialogHeader>
-                    <DialogTitle>Configuración de Conexión</DialogTitle>
-                    <DialogDescription>
-                      Configure la URL de la API REST de Node-Red
-                    </DialogDescription>
-                  </DialogHeader>
-                  <div className="space-y-4 py-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="api-url">URL de Node-Red API</Label>
-                      <Input
-                        id="api-url"
-                        placeholder="http://localhost:1880/api"
-                        value={tempApiUrl}
-                        onChange={(e) => setTempApiUrl(e.target.value)}
-                        className="bg-[hsl(var(--panel-bg))] border-[hsl(var(--panel-border))]"
-                      />
-                      <p className="text-xs text-muted-foreground">
-                        Ejemplo: http://192.168.1.100:1880/api
-                      </p>
-                    </div>
-                    <Button
-                      onClick={handleSaveApiUrl}
-                      className="w-full bg-[hsl(var(--status-active))] hover:bg-[hsl(var(--status-active)/0.8)] text-black font-semibold"
-                    >
-                      Guardar Configuración
-                    </Button>
-                  </div>
-                </DialogContent>
-              </Dialog>
             </div>
           </div>
         </div>
@@ -129,8 +70,8 @@ const Index = () => {
         {!isConnected && (
           <div className="mb-6 p-4 bg-[hsl(var(--status-warning)/0.1)] border border-[hsl(var(--status-warning)/0.3)] rounded-lg">
             <p className="text-sm text-[hsl(var(--status-warning))] font-medium">
-              ⚠️ Ejecutando en modo demo. Configure la URL de Node-Red en ajustes para conectar
-              con el PLC real.
+              ⚠️ Desconectado. Configure la URL de FastAPI en ajustes para conectar
+              con el backend.
             </p>
           </div>
         )}
@@ -174,8 +115,8 @@ const Index = () => {
               Encender/Apagar luz
             </p>
             <p>
-              <span className="text-[hsl(var(--status-warning))]">PUT</span> /api/lights/:id/timer
-              - Actualizar temporizador
+              <span className="text-[hsl(var(--status-warning))]">GET</span> /health -
+              Verificar conectividad
             </p>
           </div>
         </div>

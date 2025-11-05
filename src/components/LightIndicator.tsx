@@ -1,5 +1,6 @@
 import StatusIndicator from "./StatusIndicator";
 import { Power } from "lucide-react";
+import { useNodeRedAPI } from "@/hooks/useNodeRedAPI";
 
 interface LightIndicatorProps {
   lightId: number;
@@ -16,9 +17,15 @@ const LightIndicator = ({
   isAcknowledged,
   color,
 }: LightIndicatorProps) => {
+  const { toggleLight } = useNodeRedAPI();
   const shouldBlink = isActive && !isAcknowledged;
+
+  const handleToggle = () => {
+    toggleLight(lightId);
+  };
+
   return (
-    <div className="bg-[hsl(var(--card))] border-2 border-[hsl(var(--panel-border))] rounded-lg p-6 shadow-xl transition-all duration-300 animate-[fade-in-up_0.5s_ease-out]">
+    <div className="bg-[hsl(var(--card))] border-2 border-[hsl(var(--panel-border))] rounded-lg p-6 shadow-xl transition-all duration-300 animate-[fade-in-up_0.5s_ease-out] cursor-pointer hover:shadow-2xl" onClick={handleToggle}>
       {/* Header */}
       <div className="flex items-center justify-between mb-6 pb-4 border-b border-[hsl(var(--panel-border))]">
         <div className="flex items-center gap-3">
@@ -45,9 +52,9 @@ const LightIndicator = ({
             className={`text-2xl font-bold uppercase tracking-wider px-6 py-3 rounded-lg transition-all ${
               !isActive && "bg-[hsl(var(--status-inactive)/0.2)] text-[hsl(var(--status-inactive))]"
             } ${shouldBlink ? "animate-pulse" : ""}`}
-            style={isActive ? { 
-              backgroundColor: `${color}33`, 
-              color: color 
+            style={isActive ? {
+              backgroundColor: `${color}33`,
+              color: color
             } : undefined}
           >
             {isActive ? "ENCENDIDA" : "APAGADA"}
