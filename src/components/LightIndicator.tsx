@@ -9,7 +9,6 @@ interface LightIndicatorProps {
   timerRemaining: number;
   timerValue: number;
   isAcknowledged: boolean;
-  onAcknowledge: (lightId: number) => void;
 }
 
 const LightIndicator = ({
@@ -19,7 +18,6 @@ const LightIndicator = ({
   timerRemaining,
   timerValue,
   isAcknowledged,
-  onAcknowledge,
 }: LightIndicatorProps) => {
   const shouldBlink = isActive && !isAcknowledged;
   return (
@@ -56,18 +54,6 @@ const LightIndicator = ({
           </span>
         </div>
       </div>
-
-      {/* Acknowledgment Button */}
-      {shouldBlink && (
-        <div className="mb-6 flex justify-center">
-          <button
-            onClick={() => onAcknowledge(lightId)}
-            className="px-6 py-3 bg-[hsl(var(--status-info))] text-white font-semibold uppercase tracking-wide rounded-lg hover:bg-[hsl(var(--status-info))]/80 transition-colors shadow-lg"
-          >
-            Reconocer Alarma
-          </button>
-        </div>
-      )}
 
       {/* Timer Section */}
       <div className="bg-[hsl(var(--panel-header))] rounded-lg p-4 border border-[hsl(var(--panel-border))]">

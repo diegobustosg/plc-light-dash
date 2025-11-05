@@ -20,9 +20,17 @@ const Index = () => {
   const [tempApiUrl, setTempApiUrl] = useState("http://localhost:1880/api");
   const [acknowledgedLights, setAcknowledgedLights] = useState<Record<number, boolean>>({});
 
-  const handleAcknowledge = (lightId: number) => {
-    setAcknowledgedLights(prev => ({ ...prev, [lightId]: true }));
+  const handleAcknowledgeAll = () => {
+    const newAcknowledged: Record<number, boolean> = {};
+    lights.forEach(light => {
+      if (light.isActive) {
+        newAcknowledged[light.id] = true;
+      }
+    });
+    setAcknowledgedLights(prev => ({ ...prev, ...newAcknowledged }));
   };
+
+  const hasBlinkingLights = lights.some(light => light.isActive && !acknowledgedLights[light.id]);
 
   const handleSaveApiUrl = () => {
     setApiUrl(tempApiUrl);
@@ -125,6 +133,18 @@ const Index = () => {
           </div>
         )}
 
+        {/* Global Acknowledgment Button */}
+        {hasBlinkingLights && (
+          <div className="mb-8 flex justify-center">
+            <button
+              onClick={handleAcknowledgeAll}
+              className="px-8 py-4 bg-[hsl(var(--status-info))] text-white text-lg font-bold uppercase tracking-wide rounded-lg hover:bg-[hsl(var(--status-info))]/80 transition-colors shadow-xl animate-pulse"
+            >
+              Reconocer Todas las Alarmas
+            </button>
+          </div>
+        )}
+
         {/* Light Indicators Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {lights.map((light) => (
@@ -136,7 +156,6 @@ const Index = () => {
               timerValue={light.timerValue}
               timerRemaining={light.timerRemaining}
               isAcknowledged={acknowledgedLights[light.id] || false}
-              onAcknowledge={handleAcknowledge}
             />
           ))}
         </div>
