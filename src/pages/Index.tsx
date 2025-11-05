@@ -18,6 +18,11 @@ const Index = () => {
   const { lights, isConnected, setApiUrl } = useNodeRedAPI();
   const [showSettings, setShowSettings] = useState(false);
   const [tempApiUrl, setTempApiUrl] = useState("http://localhost:1880/api");
+  const [acknowledgedLights, setAcknowledgedLights] = useState<Record<number, boolean>>({});
+
+  const handleAcknowledge = (lightId: number) => {
+    setAcknowledgedLights(prev => ({ ...prev, [lightId]: true }));
+  };
 
   const handleSaveApiUrl = () => {
     setApiUrl(tempApiUrl);
@@ -130,6 +135,8 @@ const Index = () => {
               isActive={light.isActive}
               timerValue={light.timerValue}
               timerRemaining={light.timerRemaining}
+              isAcknowledged={acknowledgedLights[light.id] || false}
+              onAcknowledge={handleAcknowledge}
             />
           ))}
         </div>

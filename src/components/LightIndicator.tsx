@@ -8,6 +8,8 @@ interface LightIndicatorProps {
   isActive: boolean;
   timerRemaining: number;
   timerValue: number;
+  isAcknowledged: boolean;
+  onAcknowledge: (lightId: number) => void;
 }
 
 const LightIndicator = ({
@@ -16,7 +18,10 @@ const LightIndicator = ({
   isActive,
   timerRemaining,
   timerValue,
+  isAcknowledged,
+  onAcknowledge,
 }: LightIndicatorProps) => {
+  const shouldBlink = isActive && !isAcknowledged;
   return (
     <div className="bg-[hsl(var(--card))] border-2 border-[hsl(var(--panel-border))] rounded-lg p-6 shadow-xl transition-all duration-300 animate-[fade-in-up_0.5s_ease-out]">
       {/* Header */}
@@ -41,16 +46,28 @@ const LightIndicator = ({
       <div className="mb-6">
         <div className="flex items-center justify-center">
           <span
-            className={`text-2xl font-bold uppercase tracking-wider px-6 py-3 rounded-lg ${
+            className={`text-2xl font-bold uppercase tracking-wider px-6 py-3 rounded-lg transition-all ${
               isActive
                 ? "bg-[hsl(var(--status-active)/0.2)] text-[hsl(var(--status-active))]"
                 : "bg-[hsl(var(--status-inactive)/0.2)] text-[hsl(var(--status-inactive))]"
-            }`}
+            } ${shouldBlink ? "animate-pulse" : ""}`}
           >
             {isActive ? "ENCENDIDA" : "APAGADA"}
           </span>
         </div>
       </div>
+
+      {/* Acknowledgment Button */}
+      {shouldBlink && (
+        <div className="mb-6 flex justify-center">
+          <button
+            onClick={() => onAcknowledge(lightId)}
+            className="px-6 py-3 bg-[hsl(var(--status-info))] text-white font-semibold uppercase tracking-wide rounded-lg hover:bg-[hsl(var(--status-info))]/80 transition-colors shadow-lg"
+          >
+            Reconocer Alarma
+          </button>
+        </div>
+      )}
 
       {/* Timer Section */}
       <div className="bg-[hsl(var(--panel-header))] rounded-lg p-4 border border-[hsl(var(--panel-border))]">
