@@ -32,6 +32,8 @@ const Index = () => {
 
   const hasBlinkingLights = lights.some(light => light.isActive && !acknowledgedLights[light.id]);
 
+  const lightColors = ["#22c55e", "#3b82f6", "#f59e0b"];
+
   const handleSaveApiUrl = () => {
     setApiUrl(tempApiUrl);
     setShowSettings(false);
@@ -147,7 +149,7 @@ const Index = () => {
 
         {/* Light Indicators Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {lights.map((light) => (
+          {lights.map((light, index) => (
             <LightIndicator
               key={light.id}
               lightId={light.id}
@@ -156,6 +158,7 @@ const Index = () => {
               timerValue={light.timerValue}
               timerRemaining={light.timerRemaining}
               isAcknowledged={acknowledgedLights[light.id] || false}
+              color={lightColors[index % lightColors.length]}
             />
           ))}
         </div>

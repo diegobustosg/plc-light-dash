@@ -9,6 +9,7 @@ interface LightIndicatorProps {
   timerRemaining: number;
   timerValue: number;
   isAcknowledged: boolean;
+  color: string;
 }
 
 const LightIndicator = ({
@@ -18,6 +19,7 @@ const LightIndicator = ({
   timerRemaining,
   timerValue,
   isAcknowledged,
+  color,
 }: LightIndicatorProps) => {
   const shouldBlink = isActive && !isAcknowledged;
   return (
@@ -28,8 +30,9 @@ const LightIndicator = ({
           <div className="w-10 h-10 rounded-lg bg-[hsl(var(--panel-header))] flex items-center justify-center border border-[hsl(var(--panel-border))]">
             <Power
               className={`w-5 h-5 ${
-                isActive ? "text-[hsl(var(--status-active))]" : "text-[hsl(var(--status-inactive))]"
+                isActive ? "" : "text-[hsl(var(--status-inactive))]"
               }`}
+              style={isActive ? { color } : undefined}
             />
           </div>
           <div>
@@ -45,10 +48,12 @@ const LightIndicator = ({
         <div className="flex items-center justify-center">
           <span
             className={`text-2xl font-bold uppercase tracking-wider px-6 py-3 rounded-lg transition-all ${
-              isActive
-                ? "bg-[hsl(var(--status-active)/0.2)] text-[hsl(var(--status-active))]"
-                : "bg-[hsl(var(--status-inactive)/0.2)] text-[hsl(var(--status-inactive))]"
+              !isActive && "bg-[hsl(var(--status-inactive)/0.2)] text-[hsl(var(--status-inactive))]"
             } ${shouldBlink ? "animate-pulse" : ""}`}
+            style={isActive ? { 
+              backgroundColor: `${color}33`, 
+              color: color 
+            } : undefined}
           >
             {isActive ? "ENCENDIDA" : "APAGADA"}
           </span>
