@@ -18,31 +18,31 @@ const LightIndicator = ({
 }: LightIndicatorProps) => {
   const shouldBlink = isActive && !isAcknowledged;
   return (
-    <div className="bg-[hsl(var(--card))] border-2 border-[hsl(var(--panel-border))] rounded-lg p-6 shadow-xl transition-all duration-300 animate-[fade-in-up_0.5s_ease-out]">
+    <div className="bg-[hsl(var(--card))] border-4 border-[hsl(var(--panel-border))] rounded-2xl p-10 shadow-2xl transition-all duration-300 animate-[fade-in-up_0.5s_ease-out]">
       {/* Header */}
-      <div className="flex items-center justify-between mb-6 pb-4 border-b border-[hsl(var(--panel-border))]">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-lg bg-[hsl(var(--panel-header))] flex items-center justify-center border border-[hsl(var(--panel-border))]">
+      <div className="flex items-center justify-between mb-8 pb-6 border-b-2 border-[hsl(var(--panel-border))]">
+        <div className="flex items-center gap-5">
+          <div className="w-16 h-16 rounded-xl bg-[hsl(var(--panel-header))] flex items-center justify-center border-2 border-[hsl(var(--panel-border))]">
             <Power
-              className={`w-5 h-5 ${
+              className={`w-10 h-10 ${
                 isActive ? "" : "text-[hsl(var(--status-inactive))]"
               }`}
               style={isActive ? { color } : undefined}
             />
           </div>
           <div>
-            <h3 className="text-xl font-bold tracking-tight">{lightName}</h3>
-            <p className="text-xs text-muted-foreground uppercase tracking-wide">ID: {lightId}</p>
+            <h3 className="text-4xl font-bold tracking-tight">{lightName}</h3>
+            <p className="text-base text-muted-foreground uppercase tracking-wide">ID: {lightId}</p>
           </div>
         </div>
         <StatusIndicator isActive={isActive} size="lg" />
       </div>
 
       {/* Status Display */}
-      <div className="mb-6">
+      <div className="mb-8">
         <div className="flex items-center justify-center">
           <span
-            className={`text-2xl font-bold uppercase tracking-wider px-6 py-3 rounded-lg transition-all ${
+            className={`text-5xl font-bold uppercase tracking-wider px-12 py-6 rounded-2xl transition-all ${
               !isActive && "bg-[hsl(var(--status-inactive)/0.2)] text-[hsl(var(--status-inactive))]"
             } ${shouldBlink ? "animate-pulse" : ""}`}
             style={isActive ? { 
