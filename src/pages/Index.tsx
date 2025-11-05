@@ -1,5 +1,5 @@
 import { useState } from "react";
-import LightControlPanel from "@/components/LightControlPanel";
+import LightIndicator from "@/components/LightIndicator";
 import { useNodeRedAPI } from "@/hooks/useNodeRedAPI";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/dialog";
 
 const Index = () => {
-  const { lights, isConnected, toggleLight, updateTimer, setApiUrl } = useNodeRedAPI();
+  const { lights, isConnected, setApiUrl } = useNodeRedAPI();
   const [showSettings, setShowSettings] = useState(false);
   const [tempApiUrl, setTempApiUrl] = useState("http://localhost:1880/api");
 
@@ -120,18 +120,16 @@ const Index = () => {
           </div>
         )}
 
-        {/* Light Control Panels Grid */}
+        {/* Light Indicators Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {lights.map((light) => (
-            <LightControlPanel
+            <LightIndicator
               key={light.id}
               lightId={light.id}
               lightName={light.name}
               isActive={light.isActive}
               timerValue={light.timerValue}
               timerRemaining={light.timerRemaining}
-              onToggle={toggleLight}
-              onTimerChange={updateTimer}
             />
           ))}
         </div>
