@@ -155,8 +155,6 @@ const Index = () => {
               lightId={light.id}
               lightName={light.name}
               isActive={light.isActive}
-              timerValue={light.timerValue}
-              timerRemaining={light.timerRemaining}
               isAcknowledged={acknowledgedLights[light.id] || false}
               color={lightColors[index % lightColors.length]}
             />

@@ -1,13 +1,10 @@
 import StatusIndicator from "./StatusIndicator";
-import TimerDisplay from "./TimerDisplay";
-import { Power, Clock } from "lucide-react";
+import { Power } from "lucide-react";
 
 interface LightIndicatorProps {
   lightId: number;
   lightName: string;
   isActive: boolean;
-  timerRemaining: number;
-  timerValue: number;
   isAcknowledged: boolean;
   color: string;
 }
@@ -16,8 +13,6 @@ const LightIndicator = ({
   lightId,
   lightName,
   isActive,
-  timerRemaining,
-  timerValue,
   isAcknowledged,
   color,
 }: LightIndicatorProps) => {
@@ -57,23 +52,6 @@ const LightIndicator = ({
           >
             {isActive ? "ENCENDIDA" : "APAGADA"}
           </span>
-        </div>
-      </div>
-
-      {/* Timer Section */}
-      <div className="bg-[hsl(var(--panel-header))] rounded-lg p-4 border border-[hsl(var(--panel-border))]">
-        <div className="flex items-center justify-center gap-2 mb-4">
-          <Clock className="w-4 h-4 text-[hsl(var(--status-info))]" />
-          <span className="text-sm font-semibold uppercase tracking-wide">Temporizador</span>
-        </div>
-
-        <div className="flex items-center justify-around gap-4">
-          <div className="flex-1">
-            <TimerDisplay value={timerRemaining} label="Restante" />
-          </div>
-          <div className="flex-1">
-            <TimerDisplay value={timerValue} label="Configurado" />
-          </div>
         </div>
       </div>
     </div>
